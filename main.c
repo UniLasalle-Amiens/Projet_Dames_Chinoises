@@ -23,13 +23,13 @@
 typedef struct pion {
     int num;
     int position;
+    char couleur;
 } pion;
 
 
 typedef struct joueur {
     char couleur;
     char nom [100];
-    pion pions [6];
 } joueur;
 
 
