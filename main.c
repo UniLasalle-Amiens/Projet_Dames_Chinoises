@@ -5,6 +5,8 @@
 #include <ctype.h>
 #include <windows.h>
 
+
+// Enumération des constantes
 #define ARRAY_LENGTH( array ) ( sizeof ( array ) / sizeof ( *array ) )
 
 #define TIME 2500
@@ -20,29 +22,66 @@
 #define JAUNE 14
 #define BLANC 15
 
+/**
+ * @struct pion
+ * @brief structure d'un pion du jeu
+ * @param {integer} num
+ * @param {integer} x
+ * @param {integer} y
+ */
 typedef struct pion {
     int num;
-    int position;
-    char couleur;
+    int x;
+    int y;
 } pion;
 
-
+/**
+ * @struct joueur
+ * @brief structure d'un joueur du jeu
+ * @param {char} couleur
+ * @param {char} nom []
+ * @param {pion} pions
+ */
 typedef struct joueur {
     char couleur;
     char nom [100];
+    pion pions [ 6 ];
 } joueur;
 
 
+/**
+ * @fn Color
+ * @brief Fonction permettant de mettre de la couleur
+ * 
+ * @param couleurDuTexte {integer}
+ * @param couleurDeFond {integer}
+ * @return void 
+ */
 void Color( int couleurDuTexte, int couleurDeFond ) // fonction d'affichage de couleurs
 {
         HANDLE H=GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(H,couleurDeFond*16+couleurDuTexte);
 }
 
+/**
+ * @fn clear
+ * @brief Permet de nettoyer la console
+ * 
+ * @return void 
+ */
 void clear () {
     system ( "cls" );
 }
 
+
+/**
+ * @brief 
+ * 
+ * @param nb_joueurs {integer}
+ * @param j {joueur}
+ * 
+ * @return integer 
+ */
 int afficherMenu ( int *nb_joueurs, joueur j [6] ) {
     int retour = 0;
     bool loop = true;
@@ -50,6 +89,7 @@ int afficherMenu ( int *nb_joueurs, joueur j [6] ) {
     char chaine [100];
 
     joueur player;
+    pion pions;
 
     while ( loop ) {
         Color ( TURQUOISE, NOIR );
@@ -111,16 +151,37 @@ int afficherMenu ( int *nb_joueurs, joueur j [6] ) {
     return retour;
 }
 
+
+/**
+ * @fn afficherPlateau
+ * @brief Fonction permettant d'afficher le plateau de jeu
+ * 
+ * @param nbj {integer}
+ * @param j {joueur}
+ * @return void 
+ */
 void afficherPlateau ( int nbj, joueur j [ 6 ] ) {
     int lignes = 4;
 }
 
+/**
+ * @fn game
+ * @brief Fonction de lancement du jeu
+ * 
+ * @param nb_joueurs  {integer}
+ * @param joueurs {joueur}
+ * @return void 
+ */
 void game ( int nb_joueurs, joueur joueurs [6] ) {
     int i;
     int y;
     clear ();
+
+    printf ( "%d", nb_joueurs );
 }
 
+
+// Fonction principal du programme
 int main ( void ) {
     int menu;
     int nb_joueurs;
