@@ -20,16 +20,18 @@
 #define JAUNE 14
 #define BLANC 15
 
-typedef struct joueur {
-    char couleur;
-    char nom [100];
-} joueur;
-
 typedef struct pion {
-    char couleur;
     int num;
     int position;
 } pion;
+
+
+typedef struct joueur {
+    char couleur;
+    char nom [100];
+    pion pions [6];
+} joueur;
+
 
 void Color( int couleurDuTexte, int couleurDeFond ) // fonction d'affichage de couleurs
 {
@@ -123,6 +125,7 @@ int main ( void ) {
     int menu;
     int nb_joueurs;
     joueur joueurs [6];
+    pion pions [24];
 
     clear ();
     Color ( VIOLET, NOIR );
