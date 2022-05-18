@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "ia.h": "c",
+        "utils.h": "c",
+        "prototypes.h": "c"
+    }
+}
