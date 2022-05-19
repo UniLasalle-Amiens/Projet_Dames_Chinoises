@@ -11,6 +11,8 @@
 
 #define TIME 2500
 
+#define NB_PIONS 10
+
 #define NOIR 0
 #define BLEU_FONCE 1
 #define VERT_FONCE 2
@@ -24,7 +26,8 @@
 
 /**
  * @struct pion
- * @brief structure d'un pion du jeu
+ * @brief structure d'un pion du 
+ * 
  * @param {integer} num
  * @param {integer} x
  * @param {integer} y
@@ -33,11 +36,14 @@ typedef struct pion {
     int num;
     int x;
     int y;
+    char Char;
+    char couleur;
 } pion;
 
 /**
  * @struct joueur
  * @brief structure d'un joueur du jeu
+ * 
  * @param {char} couleur
  * @param {char} nom []
  * @param {pion} pions
@@ -45,7 +51,7 @@ typedef struct pion {
 typedef struct joueur {
     char couleur;
     char nom [100];
-    pion pions [ 6 ];
+    pion pions [ 10 ];
 } joueur;
 
 
@@ -118,10 +124,80 @@ int afficherMenu ( int *nb_joueurs, joueur j [6] ) {
         switch ( count ) {
             case 1:
                 player.couleur = 'R';
+
+                for ( int i = 0 ; i < 10 ; i++ ) {
+                    player.pions [ i ].num = i;
+                    player.pions [ i ].couleur = player.couleur;
+                }
+
+                player.pions [ 0 ].x = 6;
+                player.pions [ 0 ].y = 16;
+
+                player.pions [ 1 ].x = 5;
+                player.pions [ 1 ].y = 15;
+
+                player.pions [ 2 ].x = 6;
+                player.pions [ 2 ].y = 15;
+
+                player.pions [ 3 ].x = 5;
+                player.pions [ 3 ].y = 14;
+
+                player.pions [ 4 ].x = 6;
+                player.pions [ 4 ].y = 14;
+
+                player.pions [ 5 ].x = 7;
+                player.pions [ 5 ].y = 14;
+                
+                player.pions [ 6 ].x = 4;
+                player.pions [ 6 ].y = 13;
+
+                player.pions [ 7 ].x = 5;
+                player.pions [ 7 ].y = 13;
+
+                player.pions [ 8 ].x = 6;
+                player.pions [ 8 ].y = 13;
+
+                player.pions [ 9 ].x = 7;
+                player.pions [ 9 ].y = 13;
                 break;
             
             case 2:
                 player.couleur = 'B';
+
+                for ( int i = 0 ; i < 10 ; i++ ) {
+                    player.pions [ i ].num = i;
+                    player.pions [ i ].couleur = player.couleur;
+                }
+
+                player.pions [ 0 ].x = 6;
+                player.pions [ 0 ].y = 0;
+
+                player.pions [ 1 ].x = 5;
+                player.pions [ 1 ].y = 1;
+
+                player.pions [ 2 ].x = 6;
+                player.pions [ 2 ].y = 1;
+
+                player.pions [ 3 ].x = 5;
+                player.pions [ 3 ].y = 2;
+
+                player.pions [ 4 ].x = 6;
+                player.pions [ 4 ].y = 2;
+
+                player.pions [ 5 ].x = 7;
+                player.pions [ 5 ].y = 2;
+                
+                player.pions [ 6 ].x = 4;
+                player.pions [ 6 ].y = 3;
+
+                player.pions [ 7 ].x = 5;
+                player.pions [ 7 ].y = 3;
+
+                player.pions [ 8 ].x = 6;
+                player.pions [ 8 ].y = 3;
+
+                player.pions [ 9 ].x = 7;
+                player.pions [ 9 ].y = 3;
                 break;
 
             case 3:
@@ -161,7 +237,88 @@ int afficherMenu ( int *nb_joueurs, joueur j [6] ) {
  * @return void 
  */
 void afficherPlateau ( int nbj, joueur j [ 6 ] ) {
-    int lignes = 4;
+    //initialisation de variables
+
+    int x, y, i, b;
+    pion plateau [13][17];
+
+// remplissage du plateau
+// remplie la totalité du tableau par 'z'
+
+    for( y=0 ; y<17 ; y++ ){
+        for( x=0 ; x<13 ; x++ ){
+            plateau[x][y].Char = 'z';
+        }
+    }
+
+//  remplace 'z' par 'x' pour délimiter le plateau
+// Etoile
+    plateau[6][0].Char='x';
+    for(b=5;b<7;b++){plateau[b][1].Char= 'x';}
+    for(b=5;b<8;b++){plateau[b][2].Char='x';}
+    for(b=4;b<8;b++){plateau[b][3].Char='x';}
+
+    for(b=0;b<13;b++){plateau[b][4].Char='x';}
+    for(b=0;b<12;b++){plateau[b][5].Char='x';}
+    for(b=1;b<12;b++){plateau[b][6].Char='x';}
+    for(b=1;b<11;b++){plateau[b][7].Char='x';}
+    for(b=2;b<11;b++){plateau[b][8].Char='x';}
+    for(b=1;b<11;b++){plateau[b][9].Char='x';}
+    for(b=1;b<12;b++){plateau[b][10].Char='x';}
+    for(b=0;b<12;b++){plateau[b][11].Char='x';}
+    for(b=0;b<13;b++){plateau[b][12].Char='x';}
+
+    for(b=4;b<8;b++){plateau[b][13].Char= 'x';}
+    for(b=5;b<8;b++){plateau[b][14].Char='x';}
+    for(b=5;b<7;b++){plateau[b][15].Char='x';}
+    plateau[6][16].Char='x';
+
+    // Remplissage du tableau "plateau" par les chiffres des pions des différent joueurs
+    for ( int jx = 0 ; jx < nbj ; jx++ ) {
+        for ( int px = 0 ; px < NB_PIONS ; px++ ) {
+            plateau [ j [ jx ].pions [ px ].x ] [ j [ jx ].pions [ px ].y ].Char = j [ jx ].pions [ px ].num + '0';
+            plateau [ j [ jx ].pions [ px ].x ] [ j [ jx ].pions [ px ].y ].couleur = j [ jx ].pions [ px ].couleur;
+        }
+    }
+
+
+//affichage du tableau
+
+    i = 0;
+    for( y=0 ; y<17 ; y++ ){ //boucle ligne
+        i++;
+        if( i % 2 == 0 ){ //décalage de la ligne une ligne sur deux
+            printf("   ");
+        }
+        for( x=0 ; x<13 ; x++ ){ //boucle colone
+            if( plateau[x][y].Char != 'z' ){              //vérification du caractère
+                switch ( plateau [ x ] [ y ].couleur ) {
+                    case 'R':
+                        printf ( "[ " );
+                        Color ( ROUGE, NOIR );
+                        printf( "%c" , plateau[x][y].Char);
+                        Color ( BLANC, NOIR );
+                        printf ( " ] " );
+                        break;
+                    
+                    case 'B':
+                        printf ( "[ " );
+                        Color ( BLEU_FONCE, NOIR );
+                        printf( "%c" , plateau[x][y].Char);
+                        Color ( BLANC, NOIR );
+                        printf ( " ] " );
+                        break;
+
+                    default:
+                        printf( "[ %c ] " , plateau[x][y].Char);
+                }
+            }                                       
+            else{                                   //si caractère != 'z' -> afficher le caractère correspondant 
+                printf("      ");}                  //permet la délimitaion du plateau lors de son affichage
+        }
+        printf("\n\n");
+        
+    }
 }
 
 /**
@@ -173,11 +330,11 @@ void afficherPlateau ( int nbj, joueur j [ 6 ] ) {
  * @return void 
  */
 void game ( int nb_joueurs, joueur joueurs [6] ) {
+
     int i;
     int y;
     clear ();
-
-    printf ( "%d", nb_joueurs );
+    afficherPlateau ( nb_joueurs, joueurs );
 }
 
 
@@ -186,7 +343,6 @@ int main ( void ) {
     int menu;
     int nb_joueurs;
     joueur joueurs [6];
-    pion pions [24];
 
     clear ();
     Color ( VIOLET, NOIR );
