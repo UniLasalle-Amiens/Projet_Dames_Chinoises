@@ -17,8 +17,9 @@
 #define BLEU_FONCE 1
 #define VERT_FONCE 2
 #define TURQUOISE 3
-#define ROUGE_FONCE 4
+#define ORANGE 4
 #define VIOLET 5
+#define MARRON 6
 #define GRIS_CLAIR 7
 #define ROUGE 12
 #define JAUNE 14
@@ -88,7 +89,7 @@ void clear () {
  * 
  * @return integer 
  */
-int afficherMenu ( int *nb_joueurs, joueur j [6] ) {
+int initJoueur ( int *nb_joueurs, joueur j [6] ) {
     int retour = 0;
     bool loop = true;
     int count = 1;
@@ -234,13 +235,13 @@ int afficherMenu ( int *nb_joueurs, joueur j [6] ) {
  * 
  * @param nbj {integer}
  * @param j {joueur}
+ * @param plateau [] [] {pion}
  * @return void 
  */
-void afficherPlateau ( int nbj, joueur j [ 6 ] ) {
+void afficherPlateau ( int nbj, joueur j [ 6 ], pion plateau [ 13 ] [ 17 ] ) {
     //initialisation de variables
 
     int x, y, i, b;
-    pion plateau [13][17];
 
 // remplissage du plateau
 // remplie la totalité du tableau par 'z'
@@ -308,6 +309,38 @@ void afficherPlateau ( int nbj, joueur j [ 6 ] ) {
                         Color ( BLANC, NOIR );
                         printf ( " ] " );
                         break;
+                    
+                    case 'J':
+                        printf ( "[ " );
+                        Color ( JAUNE, NOIR );
+                        printf( "%c" , plateau[x][y].Char);
+                        Color ( BLANC, NOIR );
+                        printf ( " ] " );
+                        break;
+
+                    case 'O':
+                        printf ( "[ " );
+                        Color ( ORANGE, NOIR );
+                        printf( "%c" , plateau[x][y].Char);
+                        Color ( BLANC, NOIR );
+                        printf ( " ] " );
+                        break;
+
+                    case 'V':
+                        printf ( "[ " );
+                        Color ( VERT_FONCE, NOIR );
+                        printf( "%c" , plateau[x][y].Char);
+                        Color ( BLANC, NOIR );
+                        printf ( " ] " );
+                        break;
+
+                    case 'M':
+                        printf ( "[ " );
+                        Color ( MARRON, NOIR );
+                        printf( "%c" , plateau[x][y].Char);
+                        Color ( BLANC, NOIR );
+                        printf ( " ] " );
+                        break;
 
                     default:
                         printf( "[ %c ] " , plateau[x][y].Char);
@@ -321,20 +354,65 @@ void afficherPlateau ( int nbj, joueur j [ 6 ] ) {
     }
 }
 
+void modifierPosition ( joueur j [], pion plateau [ 13 ] [ 17 ], int x, int y ) {
+
+}
+
+
+
 /**
  * @fn game
  * @brief Fonction de lancement du jeu
  * 
  * @param nb_joueurs  {integer}
  * @param joueurs {joueur}
+ * @param plateau [] [] {pion}
+ * @param gagnant {bool}
  * @return void 
  */
-void game ( int nb_joueurs, joueur joueurs [6] ) {
+void game ( int nb_joueurs, joueur joueurs [6], pion plateau [ 13 ] [ 17 ], bool gagnant ) {
+    int i, y;
+    int count = 1;
+    char askPosition;
 
-    int i;
-    int y;
     clear ();
-    afficherPlateau ( nb_joueurs, joueurs );
+    afficherPlateau ( nb_joueurs, joueurs, plateau );
+
+
+    // Jeu
+    while ( !gagnant ) {
+        printf ( "\n\nJoueur %d, a vous de jouer ", count );
+        
+        switch ( joueurs [ count - 1 ].couleur ) {
+            case 'R':
+                Color ( ROUGE, NOIR );
+                break;
+
+            case 'B':
+                Color ( BLEU_FONCE, NOIR );
+                break;
+        }
+        printf ( "'%s'", joueurs [ count - 1 ].nom );
+        Color ( BLANC, NOIR );
+        
+        printf ( "\n  \\  |  / " );
+        printf ( "\n   a z e" );
+        printf ( "\n   q s d" );
+        printf ( "\n  /  |  \\ " );
+        printf ( "\n\nDans quelle direction voulez-vous vous deplacer ? : " );
+        scanf ( "%d", &askPosition );
+        
+        clear ();
+
+        if ( count == nb_joueurs ) {
+            gagnant = false;
+            break;
+        }
+
+        afficherPlateau ( nb_joueurs, joueurs, plateau );
+
+        count++;
+    }
 }
 
 
@@ -342,7 +420,10 @@ void game ( int nb_joueurs, joueur joueurs [6] ) {
 int main ( void ) {
     int menu;
     int nb_joueurs;
+    bool gagnant = false;
+
     joueur joueurs [6];
+    pion plateau [13][17];
 
     clear ();
     Color ( VIOLET, NOIR );
@@ -353,11 +434,11 @@ int main ( void ) {
     printf ( "          *****" );
     Color ( BLANC, NOIR );
 
-    menu = afficherMenu ( &nb_joueurs, joueurs );
+    menu = initJoueur ( &nb_joueurs, joueurs );
 
     switch ( menu ) {
         case 1:
-            game ( nb_joueurs, joueurs );
+            game ( nb_joueurs, joueurs, plateau, gagnant );
             break;
     }
 
