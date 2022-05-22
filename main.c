@@ -11,15 +11,17 @@
 
 #define TIME 2500
 
+// "cls" pour windows et "clear" pour MAC, LINUX ou UNIX
+#define CLEAR "cls"
+
 #define NB_PIONS 10
 
 #define NOIR 0
 #define BLEU_FONCE 1
 #define VERT_FONCE 2
 #define TURQUOISE 3
-#define ORANGE 4
+#define ORANGE 13
 #define VIOLET 5
-#define MARRON 6
 #define GRIS_CLAIR 7
 #define ROUGE 12
 #define JAUNE 14
@@ -28,13 +30,13 @@
 /**
  * @struct pion
  * @brief structure d'un pion du 
- * 
- * @param {integer} num
+ *
  * @param {integer} x
  * @param {integer} y
+ * @param Char {char}
+ * @param couleur {char}
  */
 typedef struct pion {
-    int num;
     int x;
     int y;
     char Char;
@@ -77,12 +79,13 @@ void Color( int couleurDuTexte, int couleurDeFond ) // fonction d'affichage de c
  * @return void 
  */
 void clear () {
-    system ( "cls" );
+    system ( CLEAR );
 }
 
 
 /**
- * @brief 
+ * @fn initJoueur
+ * @brief permet d'initialiser les joueurs de la partie
  * 
  * @param nb_joueurs {integer}
  * @param j {joueur}
@@ -127,7 +130,7 @@ int initJoueur ( int *nb_joueurs, joueur j [6] ) {
                 player.couleur = 'R';
 
                 for ( int i = 0 ; i < 10 ; i++ ) {
-                    player.pions [ i ].num = i;
+                    player.pions [ i ].Char = i + '0';
                     player.pions [ i ].couleur = player.couleur;
                 }
 
@@ -166,7 +169,7 @@ int initJoueur ( int *nb_joueurs, joueur j [6] ) {
                 player.couleur = 'B';
 
                 for ( int i = 0 ; i < 10 ; i++ ) {
-                    player.pions [ i ].num = i;
+                    player.pions [ i ].Char = i + '0';
                     player.pions [ i ].couleur = player.couleur;
                 }
 
@@ -203,18 +206,158 @@ int initJoueur ( int *nb_joueurs, joueur j [6] ) {
 
             case 3:
                 player.couleur = 'J';
+
+                for ( int i = 0 ; i < 10 ; i++ ) {
+                    player.pions [ i ].Char = i + '0';
+                    player.pions [ i ].couleur = player.couleur;
+                }
+
+                player.pions [ 0 ].x = 0;
+                player.pions [ 0 ].y = 12;
+
+                player.pions [ 1 ].x = 0;
+                player.pions [ 1 ].y = 11;
+
+                player.pions [ 2 ].x = 1;
+                player.pions [ 2 ].y = 12;
+
+                player.pions [ 3 ].x = 1;
+                player.pions [ 3 ].y = 10;
+
+                player.pions [ 4 ].x = 1;
+                player.pions [ 4 ].y = 11;
+
+                player.pions [ 5 ].x = 2;
+                player.pions [ 5 ].y = 12;
+                
+                player.pions [ 6 ].x = 1;
+                player.pions [ 6 ].y = 9;
+
+                player.pions [ 7 ].x = 2;
+                player.pions [ 7 ].y = 10;
+
+                player.pions [ 8 ].x = 2;
+                player.pions [ 8 ].y = 11;
+
+                player.pions [ 9 ].x = 3;
+                player.pions [ 9 ].y = 12;
                 break;
 
             case 4:
                 player.couleur = 'O';
+
+                for ( int i = 0 ; i < 10 ; i++ ) {
+                    player.pions [ i ].Char = i + '0';
+                    player.pions [ i ].couleur = player.couleur;
+                }
+
+                player.pions [ 0 ].x = 12;
+                player.pions [ 0 ].y = 4;
+
+                player.pions [ 1 ].x = 11;
+                player.pions [ 1 ].y = 4;
+
+                player.pions [ 2 ].x = 11;
+                player.pions [ 2 ].y = 5;
+
+                player.pions [ 3 ].x = 10;
+                player.pions [ 3 ].y = 4;
+
+                player.pions [ 4 ].x = 10;
+                player.pions [ 4 ].y = 5;
+
+                player.pions [ 5 ].x = 11;
+                player.pions [ 5 ].y = 6;
+                
+                player.pions [ 6 ].x = 9;
+                player.pions [ 6 ].y = 4;
+
+                player.pions [ 7 ].x = 9;
+                player.pions [ 7 ].y = 5;
+
+                player.pions [ 8 ].x = 10;
+                player.pions [ 8 ].y = 6;
+
+                player.pions [ 9 ].x = 10;
+                player.pions [ 9 ].y = 7;
                 break;
             
             case 5:
                 player.couleur = 'V';
+
+                for ( int i = 0 ; i < 10 ; i++ ) {
+                    player.pions [ i ].Char = i + '0';
+                    player.pions [ i ].couleur = player.couleur;
+                }
+
+                player.pions [ 0 ].x = 12;
+                player.pions [ 0 ].y = 12;
+
+                player.pions [ 1 ].x = 11;
+                player.pions [ 1 ].y = 11;
+
+                player.pions [ 2 ].x = 11;
+                player.pions [ 2 ].y = 12;
+
+                player.pions [ 3 ].x = 11;
+                player.pions [ 3 ].y = 10;
+
+                player.pions [ 4 ].x = 10;
+                player.pions [ 4 ].y = 11;
+
+                player.pions [ 5 ].x = 10;
+                player.pions [ 5 ].y = 12;
+                
+                player.pions [ 6 ].x = 10;
+                player.pions [ 6 ].y = 9;
+
+                player.pions [ 7 ].x = 10;
+                player.pions [ 7 ].y = 10;
+
+                player.pions [ 8 ].x = 9;
+                player.pions [ 8 ].y = 11;
+
+                player.pions [ 9 ].x = 9;
+                player.pions [ 9 ].y = 12;
                 break;
 
             case 6:
-                player.couleur = 'M';
+                player.couleur = 'T';
+
+                for ( int i = 0 ; i < 10 ; i++ ) {
+                    player.pions [ i ].Char = i + '0';
+                    player.pions [ i ].couleur = player.couleur;
+                }
+
+                player.pions [ 0 ].x = 0;
+                player.pions [ 0 ].y = 4;
+
+                player.pions [ 1 ].x = 1;
+                player.pions [ 1 ].y = 4;
+
+                player.pions [ 2 ].x = 0;
+                player.pions [ 2 ].y = 5;
+
+                player.pions [ 3 ].x = 2;
+                player.pions [ 3 ].y = 4;
+
+                player.pions [ 4 ].x = 1;
+                player.pions [ 4 ].y = 5;
+
+                player.pions [ 5 ].x = 1;
+                player.pions [ 5 ].y = 6;
+                
+                player.pions [ 6 ].x = 3;
+                player.pions [ 6 ].y = 4;
+
+                player.pions [ 7 ].x = 2;
+                player.pions [ 7 ].y = 5;
+
+                player.pions [ 8 ].x = 2;
+                player.pions [ 8 ].y = 6;
+
+                player.pions [ 9 ].x = 1;
+                player.pions [ 9 ].y = 7;
                 break;
         }
 
@@ -235,7 +378,7 @@ int initJoueur ( int *nb_joueurs, joueur j [6] ) {
  * 
  * @param nbj {integer}
  * @param j {joueur}
- * @param plateau [] [] {pion}
+ * @param plateau [][] {pion}
  * @return void 
  */
 void afficherPlateau ( int nbj, joueur j [ 6 ], pion plateau [ 13 ] [ 17 ] ) {
@@ -277,7 +420,7 @@ void afficherPlateau ( int nbj, joueur j [ 6 ], pion plateau [ 13 ] [ 17 ] ) {
     // Remplissage du tableau "plateau" par les chiffres des pions des différent joueurs
     for ( int jx = 0 ; jx < nbj ; jx++ ) {
         for ( int px = 0 ; px < NB_PIONS ; px++ ) {
-            plateau [ j [ jx ].pions [ px ].x ] [ j [ jx ].pions [ px ].y ].Char = j [ jx ].pions [ px ].num + '0';
+            plateau [ j [ jx ].pions [ px ].x ] [ j [ jx ].pions [ px ].y ].Char = j [ jx ].pions [ px ].Char;
             plateau [ j [ jx ].pions [ px ].x ] [ j [ jx ].pions [ px ].y ].couleur = j [ jx ].pions [ px ].couleur;
         }
     }
@@ -334,9 +477,9 @@ void afficherPlateau ( int nbj, joueur j [ 6 ], pion plateau [ 13 ] [ 17 ] ) {
                         printf ( " ] " );
                         break;
 
-                    case 'M':
+                    case 'T':
                         printf ( "[ " );
-                        Color ( MARRON, NOIR );
+                        Color ( TURQUOISE, NOIR );
                         printf( "%c" , plateau[x][y].Char);
                         Color ( BLANC, NOIR );
                         printf ( " ] " );
@@ -354,10 +497,70 @@ void afficherPlateau ( int nbj, joueur j [ 6 ], pion plateau [ 13 ] [ 17 ] ) {
     }
 }
 
-void modifierPosition ( joueur j [], pion plateau [ 13 ] [ 17 ], int x, int y ) {
+/**
+ * @fn afficherInfoTourJoueur
+ * @brief Afficher le joueur qui doit actuellement jouer
+ * 
+ * @param j [] {joueur}
+ * @param count {integer}
+ * @return void
+ */
+void afficherInfoTourJoueur ( joueur j [], int count ) {
+    printf ( "\n\nJoueur %d, a vous de jouer ", count );
+        
+    // Affichage du nom du joueur en fonction de sa couleur d'équipe
+    switch ( j [ count - 1 ].couleur ) {
+        case 'R':
+            Color ( ROUGE, NOIR );
+            break;
 
+        case 'B':
+            Color ( BLEU_FONCE, NOIR );
+            break;
+        
+        case 'J':
+            Color ( JAUNE, NOIR );
+            break;
+        
+        case 'O':
+            Color ( ORANGE, NOIR );
+            break;
+        
+        case 'V':
+            Color ( VERT_FONCE, NOIR );
+            break;
+        
+        case 'T':
+            Color ( TURQUOISE, NOIR );
+            break;
+    }
+    printf ( "'%s'", j [ count - 1 ].nom );
+    Color ( BLANC, NOIR );
 }
 
+/**
+ * @fn modifierPosition
+ * @brief Permet de modifier la position des pions sur le plateau
+ * 
+ * @param plateau {pion}
+ * @param numPion  {integer}
+ * @param direction {char}
+ * @param j {joueur} - joueur ayant joué
+ * 
+ * @return void
+ */
+void modifierPosition ( pion plateau [ 13 ] [ 17 ], int numPion, char direction, joueur *j ) {
+    switch ( direction ) {
+        case 'a':
+
+            // L'ancienne case hérite de attributs de la nouvelle sur laquelle le pion à été bougé
+            plateau [ j->pions [ numPion ].x ] [ j->pions [ numPion ].y ].couleur = ' ';
+        
+            j->pions [ numPion ].y -= 1;
+
+            break;
+    }
+}
 
 
 /**
@@ -374,41 +577,76 @@ void game ( int nb_joueurs, joueur joueurs [6], pion plateau [ 13 ] [ 17 ], bool
     int i, y;
     int count = 1;
     char askPosition;
+    int numPion;
+    bool ask;
 
     clear ();
     afficherPlateau ( nb_joueurs, joueurs, plateau );
 
 
     // Jeu
-    while ( !gagnant ) {
-        printf ( "\n\nJoueur %d, a vous de jouer ", count );
-        
-        switch ( joueurs [ count - 1 ].couleur ) {
-            case 'R':
-                Color ( ROUGE, NOIR );
-                break;
+    while ( !gagnant ) { // Le jeu tourne tant qu'il n'y a pas de gagnant
+        ask = true;
 
-            case 'B':
-                Color ( BLEU_FONCE, NOIR );
+        while ( ask ) {
+            afficherInfoTourJoueur ( joueurs, count );
+            printf ( "\n\nQuel pion voulez-vous bouger ? : " );
+            scanf ( "%d", &numPion );
+
+            if ( numPion < 0 || numPion > 9 ) {
+                clear ();
+                printf ( "\nPion inexistant" );
+                Sleep ( TIME );
+                clear ();
+                afficherPlateau ( nb_joueurs, joueurs, plateau );
+
+                // Vérification par la suite si le pion peut bouger
+
+            } else {
+                ask = false;
                 break;
+            }
         }
-        printf ( "'%s'", joueurs [ count - 1 ].nom );
-        Color ( BLANC, NOIR );
-        
-        printf ( "\n  \\  |  / " );
-        printf ( "\n   a z e" );
-        printf ( "\n   q s d" );
-        printf ( "\n  /  |  \\ " );
-        printf ( "\n\nDans quelle direction voulez-vous vous deplacer ? : " );
-        scanf ( "%d", &askPosition );
-        
-        clear ();
+
+        ask = true;
+
+        while ( ask ) {
+            clear ();
+            afficherPlateau ( nb_joueurs, joueurs, plateau );
+            afficherInfoTourJoueur ( joueurs, count );
+            printf ( "\n" );
+            printf ( "\n  \\    / " );
+            printf ( "\n   a  e" );
+            printf ( "\n-- q  d --");
+            printf ( "\n   w  c" );
+            printf ( "\n  /    \\ " );
+            printf ( "\n\nDans quelle direction voulez-vous vous deplacer ? : " );
+            fflush ( stdin );
+            scanf ( "%c", &askPosition );
+
+            if ( askPosition != 'a' && askPosition != 'e' && askPosition != 'q' && askPosition != 'd' && askPosition != 'w' && askPosition != 'c' ) {
+                clear ();
+                printf ( "\nDirection inconnue" );
+                Sleep ( TIME );
+                clear ();
+                afficherPlateau ( nb_joueurs, joueurs, plateau );
+
+                // Vérification par la suite si ce mvt est possible
+
+            } else {
+                clear ();
+                modifierPosition ( plateau, numPion, askPosition, &joueurs [ count - 1 ] );
+                ask = false;
+                break;
+            }
+        }
 
         if ( count == nb_joueurs ) {
             gagnant = false;
             break;
         }
 
+        clear ();
         afficherPlateau ( nb_joueurs, joueurs, plateau );
 
         count++;
