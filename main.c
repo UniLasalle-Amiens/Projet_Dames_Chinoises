@@ -11,11 +11,12 @@
 
 #define TIME 2500
 
-// "cls" pour windows et "clear" pour MAC, LINUX ou UNIX
+// "cls" pour windows et "clear" pour MAC, LINUX
 #define CLEAR "cls"
 
 #define NB_PIONS 10
 
+// Définission des couleurs
 #define NOIR 0
 #define BLEU_FONCE 1
 #define VERT_FONCE 2
@@ -49,6 +50,7 @@ typedef struct pion {
  * 
  * @param {char} couleur
  * @param {char} nom []
+ * @param {integer} compteur
  * @param {pion} pions
  */
 typedef struct joueur {
@@ -60,14 +62,13 @@ typedef struct joueur {
 
 /**
  * @fn Color
- * @brief Fonction permettant de mettre de la couleur
+ * @brief Fonction permettant de changer la couleur de la console
  * 
  * @param couleurDuTexte {integer}
  * @param couleurDeFond {integer}
  * @return void 
  */
-void Color( int couleurDuTexte, int couleurDeFond ) // fonction d'affichage de couleurs
-{
+void Color( int couleurDuTexte, int couleurDeFond ) {
         HANDLE H=GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(H,couleurDeFond*16+couleurDuTexte);
 }
@@ -87,7 +88,7 @@ void clear () {
  * @fn initJoueur
  * @brief permet d'initialiser les joueurs de la partie
  * 
- * @param nb_joueurs {integer}
+ * @param *nb_joueurs {integer}
  * @param j {joueur}
  * 
  * @return integer 
@@ -545,21 +546,66 @@ void afficherInfoTourJoueur ( joueur j [], int count ) {
  * @param plateau {pion}
  * @param numPion  {integer}
  * @param direction {char}
- * @param j {joueur} - joueur ayant joué
+ * @param *j {joueur} - joueur ayant joué
  * 
  * @return void
  */
 void modifierPosition ( pion plateau [ 13 ] [ 17 ], int numPion, char direction, joueur *j ) {
+    // L'ancienne case hérite de attributs de la nouvelle sur laquelle le pion à été bougé
+    plateau [ j->pions [ numPion ].x ] [ j->pions [ numPion ].y ].couleur = ' ';
+
     switch ( direction ) {
         case 'a':
-
-            // L'ancienne case hérite de attributs de la nouvelle sur laquelle le pion à été bougé
-            plateau [ j->pions [ numPion ].x ] [ j->pions [ numPion ].y ].couleur = ' ';
-        
-            j->pions [ numPion ].y -= 1;
+            // Case pair en y donc on décale aussi en x car les cases sont décalées une sur deux
+            if ( j->pions [ numPion ].y % 2 == 0 ) { // Vérification de la case en y paire
+                j->pions [ numPion ].x -= 1;
+                j->pions [ numPion ].y -= 1;
+            } else
+                j->pions [ numPion ].y -= 1;
 
             break;
     }
+}
+
+
+/**
+ * @fn win
+ * @brief Fonction permettant de finir la partie
+ * 
+ * @param p {pion}
+ * @param j {joueur}
+ * @param nbj {integer}
+ * @param *numJoueurGagnant {integer}
+ * 
+ * @return boolean
+ */
+bool win ( pion p [ 13 ] [ 17 ], joueur j [], int nbj, int *numJoueurGagnant ) {
+    bool retour;
+
+    switch ( nbj ) {
+        case 2: // Quand il y a 2 joueurs
+            for ( int i = 0 ; i < nbj ; i++ )
+                for ( int k = 0 ; k < NB_PIONS ; k++ ) {
+                    switch ( i ) {
+                        case 0:
+                            if ( j [ i ].pions [ NB_PIONS ].x == 6 || j [ i ].pions [ NB_PIONS ].x == 5 || j [ i ].pions [ NB_PIONS ].x == 4 || j [ i ].pions [ NB_PIONS ].x == 7 && j [ i ].pions [ NB_PIONS ].y == 0 || j [ i ].pions [ NB_PIONS ].y == 1 || j [ i ].pions [ NB_PIONS ].y == 2 || j [ i ].pions [ NB_PIONS ].y == 3 ) {
+                                *numJoueurGagnant = i + 1;
+                                retour = true;
+                            }
+                            
+                            break;
+                        
+                        case 1:
+                            if ( j [ i ].pions [ NB_PIONS ].x == 6 || j [ i ].pions [ NB_PIONS ].x == 5 || j [ i ].pions [ NB_PIONS ].x == 4 || j [ i ].pions [ NB_PIONS ].x == 7 && j [ i ].pions [ NB_PIONS ].y == 16 || j [ i ].pions [ NB_PIONS ].y == 15 || j [ i ].pions [ NB_PIONS ].y == 14 || j [ i ].pions [ NB_PIONS ].y == 13 ) {
+                                *numJoueurGagnant = i + 1;
+                                retour = true;
+                            }
+                            break;
+                    }
+                }
+            break;
+    }
+    return retour;
 }
 
 
@@ -573,12 +619,14 @@ void modifierPosition ( pion plateau [ 13 ] [ 17 ], int numPion, char direction,
  * @param gagnant {bool}
  * @return void 
  */
-void game ( int nb_joueurs, joueur joueurs [6], pion plateau [ 13 ] [ 17 ], bool gagnant ) {
+void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
     int i, y;
     int count = 1;
     char askPosition;
     int numPion;
-    bool ask;
+    int indexJoueurGagnant;
+
+    bool ask, gagnant = false, boolean;
 
     clear ();
     afficherPlateau ( nb_joueurs, joueurs, plateau );
@@ -641,15 +689,32 @@ void game ( int nb_joueurs, joueur joueurs [6], pion plateau [ 13 ] [ 17 ], bool
             }
         }
 
-        if ( count == nb_joueurs ) {
-            gagnant = false;
-            break;
-        }
-
         clear ();
         afficherPlateau ( nb_joueurs, joueurs, plateau );
 
         count++;
+
+        // if ( count > nb_joueurs ) {
+        //     gagnant = true;
+        //     break;
+        // }
+
+        if ( count > nb_joueurs )
+            count = 1;
+
+
+        // Gestion de la fin de partie
+        boolean = win ( plateau, joueurs, nb_joueurs, &indexJoueurGagnant );
+
+        if ( boolean ) {
+            clear ();
+            Color ( ROUGE, NOIR );
+            printf ( "\n\n\tLE JOUEUR %d '%s' A GAGNE !!!", indexJoueurGagnant + 1, joueurs [ indexJoueurGagnant ].nom );
+            Color ( BLANC, NOIR );
+
+            gagnant = true;
+            break;
+        }
     }
 }
 
@@ -658,7 +723,6 @@ void game ( int nb_joueurs, joueur joueurs [6], pion plateau [ 13 ] [ 17 ], bool
 int main ( void ) {
     int menu;
     int nb_joueurs;
-    bool gagnant = false;
 
     joueur joueurs [6];
     pion plateau [13][17];
@@ -676,7 +740,7 @@ int main ( void ) {
 
     switch ( menu ) {
         case 1:
-            game ( nb_joueurs, joueurs, plateau, gagnant );
+            game ( nb_joueurs, joueurs, plateau );
             break;
     }
 
