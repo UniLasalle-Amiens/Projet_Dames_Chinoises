@@ -560,9 +560,47 @@ void modifierPosition ( pion plateau [ 13 ] [ 17 ], int numPion, char direction,
             if ( j->pions [ numPion ].y % 2 == 0 ) { // Vérification de la case en y paire
                 j->pions [ numPion ].x -= 1;
                 j->pions [ numPion ].y -= 1;
+
             } else
                 j->pions [ numPion ].y -= 1;
 
+            break;
+
+        case 'e':
+            if ( j->pions [ numPion ].y % 2 == 0 )
+                j->pions [ numPion ].y -= 1;
+
+            else {
+                j->pions [ numPion ].y -= 1;
+                j->pions [ numPion ].x += 1;
+            }
+            break;
+        
+        case 'd':
+            j->pions [ numPion ].x += 1;
+            break;
+        
+        case 'q':
+            j->pions [ numPion ].x -= 1;
+            break;
+
+        case 'w':
+            if ( j->pions [ numPion ].y % 2 == 0 ) {
+                j->pions [ numPion ].x -= 1;
+                j->pions [ numPion ].y += 1;
+
+            } else
+                j->pions [ numPion ].x += 1;
+            break;
+
+        case 'c':
+            if ( j->pions [ numPion ].y % 2 == 0 )
+                j->pions [ numPion ].y += 2;
+            
+            else {
+                j->pions [ numPion ].x += 1;
+                j->pions [ numPion ].y += 1;
+            }
             break;
     }
 }
