@@ -590,16 +590,16 @@ void modifierPosition ( pion plateau [ 13 ] [ 17 ], int numPion, char direction,
                 j->pions [ numPion ].y += 1;
 
             } else
-                j->pions [ numPion ].x += 1;
+                j->pions [ numPion ].y += 1;
             break;
 
         case 'c':
             if ( j->pions [ numPion ].y % 2 == 0 )
-                j->pions [ numPion ].y += 2;
+                j->pions [ numPion ].y += 1;
             
             else {
-                j->pions [ numPion ].x += 1;
                 j->pions [ numPion ].y += 1;
+                j->pions [ numPion ].x += 1;
             }
             break;
     }
@@ -620,6 +620,7 @@ void modifierPosition ( pion plateau [ 13 ] [ 17 ], int numPion, char direction,
 bool win ( pion p [ 13 ] [ 17 ], joueur j [], int nbj, int *numJoueurGagnant ) {
     bool retour;
 
+    // En fonction du nombre d'équipe on vient vérifié si chaque pion d'une équipe se situe bien dans les cases du camp adverse
     switch ( nbj ) {
         case 2: // Quand il y a 2 joueurs
             for ( int i = 0 ; i < nbj ; i++ )
