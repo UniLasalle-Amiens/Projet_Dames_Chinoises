@@ -543,66 +543,95 @@ void afficherInfoTourJoueur ( joueur j [], int count ) {
  * @fn modifierPosition
  * @brief Permet de modifier la position des pions sur le plateau
  * 
- * @param plateau {pion}
+ * @param p {pion}
  * @param numPion  {integer}
  * @param direction {char}
  * @param *j {joueur} - joueur ayant joué
+ * @param *pionX {integer}
+ * @param *pionY {integer}
  * 
  * @return void
  */
-void modifierPosition ( pion plateau [ 13 ] [ 17 ], int numPion, char direction, joueur *j ) {
-    // L'ancienne case hérite de attributs de la nouvelle sur laquelle le pion à été bougé
-    plateau [ j->pions [ numPion ].x ] [ j->pions [ numPion ].y ].couleur = ' ';
+void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueur *j, int *pionX, int *pionY ) {
+    int x, y = 0;
 
     switch ( direction ) {
         case 'a':
+
             // Case pair en y donc on décale aussi en x car les cases sont décalées une sur deux
             if ( j->pions [ numPion ].y % 2 == 0 ) { // Vérification de la case en y paire
-                j->pions [ numPion ].x -= 1;
-                j->pions [ numPion ].y -= 1;
+                // j->pions [ numPion ].x -= 1;
+                // j->pions [ numPion ].y -= 1;
+
+                x = -1;
+                y = -1;
 
             } else
-                j->pions [ numPion ].y -= 1;
+                y = -1;
+                // j->pions [ numPion ].y -= 1;
 
             break;
 
         case 'e':
             if ( j->pions [ numPion ].y % 2 == 0 )
-                j->pions [ numPion ].y -= 1;
+                y = -1;
+                // j->pions [ numPion ].y -= 1;
 
             else {
-                j->pions [ numPion ].y -= 1;
-                j->pions [ numPion ].x += 1;
+                y = -1;
+                x = 1;
+                // j->pions [ numPion ].y -= 1;
+                // j->pions [ numPion ].x += 1;
             }
             break;
         
         case 'd':
-            j->pions [ numPion ].x += 1;
+            x = 1;
+            // j->pions [ numPion ].x += 1;
             break;
         
         case 'q':
-            j->pions [ numPion ].x -= 1;
+            x = -1;
+            // j->pions [ numPion ].x -= 1;
             break;
 
         case 'w':
             if ( j->pions [ numPion ].y % 2 == 0 ) {
-                j->pions [ numPion ].x -= 1;
-                j->pions [ numPion ].y += 1;
+                x = -1;
+                y = 1;
+                // j->pions [ numPion ].x -= 1;
+                // j->pions [ numPion ].y += 1;
 
             } else
-                j->pions [ numPion ].y += 1;
+                y = 1;
+                // j->pions [ numPion ].y += 1;
             break;
 
         case 'c':
             if ( j->pions [ numPion ].y % 2 == 0 )
-                j->pions [ numPion ].y += 1;
+                y = 1;
+                // j->pions [ numPion ].y += 1;
             
             else {
-                j->pions [ numPion ].y += 1;
-                j->pions [ numPion ].x += 1;
+                y = 1;
+                x = 1;
+                // j->pions [ numPion ].y += 1;
+                // j->pions [ numPion ].x += 1;
             }
             break;
     }
+
+    *pionX = x;
+    *pionY = y;
+
+    if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' ) {
+        // L'ancienne case hérite de attributs de la nouvelle sur laquelle le pion à été bougé
+        p [ j->pions [ numPion ].x ] [ j->pions [ numPion ].y ].couleur = ' ';
+
+        j->pions [ numPion ].x += x;
+        j->pions [ numPion ].y += y;
+    }
+
 }
 
 
@@ -665,6 +694,8 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
     int numPion;
     int indexJoueurGagnant;
 
+    int pionX, pionY;
+
     bool ask, gagnant = false, boolean;
 
     clear ();
@@ -687,9 +718,11 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
                 clear ();
                 afficherPlateau ( nb_joueurs, joueurs, plateau );
 
-                // Vérification par la suite si le pion peut bouger
+            }
 
-            } else {
+            // Vérification par la suite si le pion peut bouger
+
+            else {
                 ask = false;
                 break;
             }
@@ -717,14 +750,26 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
                 Sleep ( TIME );
                 clear ();
                 afficherPlateau ( nb_joueurs, joueurs, plateau );
+            }
 
-                // Vérification par la suite si ce mvt est possible
+            // Vérification par la suite si ce mvt est possible
 
-            } else {
+            else {
                 clear ();
-                modifierPosition ( plateau, numPion, askPosition, &joueurs [ count - 1 ] );
-                ask = false;
-                break;
+                modifierPosition ( plateau, numPion, askPosition, &joueurs [ count - 1 ], &pionX, &pionY );
+                
+                // Vérification de la sortie de plateau ou non
+                if ( plateau [ pionX ] [ pionY ].Char == 'z' ) {
+                    clear ();
+                    printf ( "\nImpossible de sortir du plateau" );
+                    Sleep ( TIME );
+                    clear ();
+                    afficherPlateau ( nb_joueurs, joueurs, plateau );
+
+                } else {
+                    ask = false;
+                    break;
+                }
             }
         }
 
