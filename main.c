@@ -714,7 +714,7 @@ bool win ( pion p [ 13 ] [ 17 ], joueur j [], int nbj, int *numJoueurGagnant ) {
                 retour = true;
                 *numJoueurGagnant = 4;
 
-            } else if ( p [ 0 ] [ 12 ].couleur == 'T' && p [ 0 ] [ 11 ].couleur == 'T' && p [ 1 ] [ 12 ].couleur == 'T' && p [ 1 ] [ 10 ].couleur == 'T' && p [ 1 ] [ 11 ].couleur == 'T' && p [ 2 ] [ 12 ].couleur == 'T' && p [ 1 ] [ 9 ].couleur == 'T' && p [ 2 ] [ 10 ].couleur == 'T' && p [ 2 ] [ 11 ].couleur == 'T' && p [ 3 ] [ 12 ].couleur == 'T') {
+            } else if ( p [ 0 ] [ 4 ].couleur == 'V' && p [ 1 ] [ 4 ].couleur == 'V' && p [ 0 ] [ 5 ].couleur == 'V' && p [ 2 ] [ 4 ].couleur == 'V' && p [ 1 ] [ 5 ].couleur == 'V' && p [ 1 ] [ 6 ].couleur == 'V' && p [ 3 ] [ 4 ].couleur == 'V' && p [ 2 ] [ 5 ].couleur == 'V' && p [ 2 ] [ 6 ].couleur == 'V' && p [ 1 ] [ 7 ].couleur == 'V') {
                 retour = true;
                 *numJoueurGagnant = 5;
             }
@@ -737,11 +737,11 @@ bool win ( pion p [ 13 ] [ 17 ], joueur j [], int nbj, int *numJoueurGagnant ) {
                 retour = true;
                 *numJoueurGagnant = 4;
 
-            } else if ( p [ 0 ] [ 12 ].couleur == 'T' && p [ 0 ] [ 11 ].couleur == 'T' && p [ 1 ] [ 12 ].couleur == 'T' && p [ 1 ] [ 10 ].couleur == 'T' && p [ 1 ] [ 11 ].couleur == 'T' && p [ 2 ] [ 12 ].couleur == 'T' && p [ 1 ] [ 9 ].couleur == 'T' && p [ 2 ] [ 10 ].couleur == 'T' && p [ 2 ] [ 11 ].couleur == 'T' && p [ 3 ] [ 12 ].couleur == 'T') {
+            } else if ( p [ 0 ] [ 4 ].couleur == 'V' && p [ 1 ] [ 4 ].couleur == 'V' && p [ 0 ] [ 5 ].couleur == 'V' && p [ 2 ] [ 4 ].couleur == 'V' && p [ 1 ] [ 5 ].couleur == 'V' && p [ 1 ] [ 6 ].couleur == 'V' && p [ 3 ] [ 4 ].couleur == 'V' && p [ 2 ] [ 5 ].couleur == 'V' && p [ 2 ] [ 6 ].couleur == 'V' && p [ 1 ] [ 7 ].couleur == 'V') {
                 retour = true;
                 *numJoueurGagnant = 5;
 
-            } else if ( p [ 12 ] [ 12 ].couleur == 'V' && p [ 11 ] [ 11 ].couleur == 'V' && p [ 11 ] [ 12 ].couleur == 'V' && p [ 11 ] [ 10 ].couleur == 'V' && p [ 10 ] [ 11 ].couleur == 'V' && p [ 10 ] [ 12 ].couleur == 'V' && p [ 10 ] [ 9 ].couleur == 'V' && p [ 10 ] [ 10 ].couleur == 'V' && p [ 9 ] [ 11 ].couleur == 'V' && p [ 9 ] [ 12 ].couleur == 'V') {
+            } else if ( p [ 12 ] [ 12 ].couleur == 'T' && p [ 11 ] [ 11 ].couleur == 'T' && p [ 11 ] [ 12 ].couleur == 'T' && p [ 11 ] [ 10 ].couleur == 'T' && p [ 10 ] [ 11 ].couleur == 'T' && p [ 10 ] [ 12 ].couleur == 'T' && p [ 10 ] [ 9 ].couleur == 'T' && p [ 10 ] [ 10 ].couleur == 'T' && p [ 9 ] [ 11 ].couleur == 'T' && p [ 9 ] [ 12 ].couleur == 'T') {
                 retour = true;
                 *numJoueurGagnant = 6;
             }
@@ -792,7 +792,6 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
                 Sleep ( TIME );
                 clear ();
                 afficherPlateau ( nb_joueurs, joueurs, plateau );
-
             }
 
             // Vérification par la suite si le pion peut bouger
