@@ -549,10 +549,11 @@ void afficherInfoTourJoueur ( joueur j [], int count ) {
  * @param direction {char}
  * @param *j {joueur} - joueur ayant joué
  * @param *value {char}
+ * @param *replay {boolean} joueur doit rejouer ? (après un saut de pion)
  * 
  * @return void
  */
-void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueur *j, char *value ) {
+void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueur *j, char *value, bool *replay ) {
     int x, y, x2, y2 = 0;
 
     switch ( direction ) {
@@ -574,7 +575,11 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
             if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
                     x = -1;
                     y = -2;
-            }
+
+                    *replay = true;
+
+            } else
+                *replay = false;
             break;
 
         case 'e':
@@ -593,7 +598,11 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
             if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
                     x = 1;
                     y = -2;
-            }
+
+                    *replay = true;
+
+            } else
+                *replay = false;
             break;
         
         case 'd':
@@ -602,8 +611,13 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
             // j->pions [ numPion ].x += 1;
 
             // Saut d'un pion
-            if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' )
+            if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
                 x = 2;
+                *replay = true;
+
+            } else
+                *replay = false;
+
             break;
         
         case 'q':
@@ -612,8 +626,12 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
             // j->pions [ numPion ].x -= 1;
 
             // Saut d'un pion
-            if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' )
+            if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
                 x = -2;
+                *replay = true;
+
+            } else
+                *replay = false;
 
             break;
 
@@ -632,7 +650,11 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
             if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
                     x = -1;
                     y = 2;
-            }
+                    
+                    *replay = true;
+
+            } else
+                *replay = false;
             break;
 
         case 'c':
@@ -651,7 +673,11 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
             if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
                     x = 1;
                     y = 2;
-            }
+
+                    *replay = true;
+
+            } else
+                *replay = false;
             break;
     }
 
@@ -807,6 +833,7 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
     char Case; // Variable servant à indiquer ou non à l'utilisateur si sa saisie fait sortir le pion du plateau
 
     bool ask, gagnant = false, boolean;
+    bool replay = false;
 
     clear ();
     afficherPlateau ( nb_joueurs, joueurs, plateau );
@@ -867,7 +894,7 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
 
             else {
                 clear ();
-                modifierPosition ( plateau, numPion, askPosition, &joueurs [ count - 1 ], &Case );
+                modifierPosition ( plateau, numPion, askPosition, &joueurs [ count - 1 ], &Case, &replay );
                 
                 // Vérification de la sortie de plateau ou non
                 if ( Case == 'z' ) {
@@ -887,7 +914,9 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
         clear ();
         afficherPlateau ( nb_joueurs, joueurs, plateau );
 
-        count++;
+        // Le joueur rejoue tant qu'il fait des sauts de pion
+        if ( !replay )
+            count++;
 
         if ( count > nb_joueurs )
             count = 1;
