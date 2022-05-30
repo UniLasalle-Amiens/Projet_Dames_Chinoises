@@ -553,7 +553,7 @@ void afficherInfoTourJoueur ( joueur j [], int count ) {
  * @return void
  */
 void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueur *j, char *value ) {
-    int x, y = 0;
+    int x, y, x2, y2 = 0;
 
     switch ( direction ) {
         case 'a':
@@ -570,6 +570,11 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
                 y = -1;
                 // j->pions [ numPion ].y -= 1;
 
+            // Saut d'un pion
+            if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
+                    x = -1;
+                    y = -2;
+            }
             break;
 
         case 'e':
@@ -583,16 +588,33 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
                 // j->pions [ numPion ].y -= 1;
                 // j->pions [ numPion ].x += 1;
             }
+
+            // Saut d'un pion
+            if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
+                    x = 1;
+                    y = -2;
+            }
             break;
         
         case 'd':
             x = 1;
+            y = 0;
             // j->pions [ numPion ].x += 1;
+
+            // Saut d'un pion
+            if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' )
+                x = 2;
             break;
         
         case 'q':
             x = -1;
+            y = 0;
             // j->pions [ numPion ].x -= 1;
+
+            // Saut d'un pion
+            if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' )
+                x = -2;
+
             break;
 
         case 'w':
@@ -605,6 +627,12 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
             } else
                 y = 1;
                 // j->pions [ numPion ].y += 1;
+
+            // Saut d'un pion
+            if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
+                    x = -1;
+                    y = 2;
+            }
             break;
 
         case 'c':
@@ -618,9 +646,16 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
                 // j->pions [ numPion ].y += 1;
                 // j->pions [ numPion ].x += 1;
             }
+
+            // Saut d'un pion
+            if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
+                    x = 1;
+                    y = 2;
+            }
             break;
     }
 
+    // On vérifie si le pion ne sort pas du plateau
     if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' ) {
 
         // L'ancienne case hérite de attributs de la nouvelle sur laquelle le pion à été bougé
@@ -629,9 +664,10 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
         j->pions [ numPion ].x += x;
         j->pions [ numPion ].y += y;
 
-        *value = 'c';
+        *value = 'c'; // Le pion ne sort pas du plateau
+
     } else
-        *value = 'z';
+        *value = 'z'; // Le pion sort du plateau
 
 }
 
