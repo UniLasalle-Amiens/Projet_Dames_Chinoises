@@ -79,7 +79,7 @@ void Color( int couleurDuTexte, int couleurDeFond ) {
  * 
  * @return void 
  */
-void clear () {
+void clear ( void ) {
     system ( CLEAR );
 }
 
@@ -437,59 +437,38 @@ void afficherPlateau ( int nbj, joueur j [ 6 ], pion plateau [ 13 ] [ 17 ] ) {
             printf("   ");
         }
         for( x=0 ; x<13 ; x++ ){ //boucle colone
-            if( plateau[x][y].Char != 'z' ){              //vérification du caractère
+            if( plateau[x][y].Char != 'z' ){ //vérification du caractère
+                printf ( "[ " );
+
                 switch ( plateau [ x ] [ y ].couleur ) {
                     case 'R':
-                        printf ( "[ " );
                         Color ( ROUGE, NOIR );
-                        printf( "%c" , plateau[x][y].Char);
-                        Color ( BLANC, NOIR );
-                        printf ( " ] " );
                         break;
                     
                     case 'B':
-                        printf ( "[ " );
                         Color ( BLEU_FONCE, NOIR );
-                        printf( "%c" , plateau[x][y].Char);
-                        Color ( BLANC, NOIR );
-                        printf ( " ] " );
                         break;
                     
                     case 'J':
-                        printf ( "[ " );
                         Color ( JAUNE, NOIR );
-                        printf( "%c" , plateau[x][y].Char);
-                        Color ( BLANC, NOIR );
-                        printf ( " ] " );
                         break;
 
                     case 'O':
-                        printf ( "[ " );
                         Color ( ORANGE, NOIR );
-                        printf( "%c" , plateau[x][y].Char);
-                        Color ( BLANC, NOIR );
-                        printf ( " ] " );
                         break;
 
                     case 'V':
-                        printf ( "[ " );
                         Color ( VERT_FONCE, NOIR );
-                        printf( "%c" , plateau[x][y].Char);
-                        Color ( BLANC, NOIR );
-                        printf ( " ] " );
                         break;
 
                     case 'T':
-                        printf ( "[ " );
                         Color ( TURQUOISE, NOIR );
-                        printf( "%c" , plateau[x][y].Char);
-                        Color ( BLANC, NOIR );
-                        printf ( " ] " );
                         break;
-
-                    default:
-                        printf( "[ %c ] " , plateau[x][y].Char);
                 }
+
+                printf( "%c" , plateau[x][y].Char);
+                Color ( BLANC, NOIR );
+                printf ( " ] " );
             }                                       
             else{                                   //si caractère != 'z' -> afficher le caractère correspondant 
                 printf("      ");}                  //permet la délimitaion du plateau lors de son affichage
@@ -573,10 +552,10 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
 
             // Saut d'un pion
             if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
-                    x = -1;
-                    y = -2;
+                x = -1;
+                y = -2;
 
-                    *replay = true;
+                *replay = true;
 
             } else
                 *replay = false;
@@ -596,10 +575,10 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
 
             // Saut d'un pion
             if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
-                    x = 1;
-                    y = -2;
+                x = 1;
+                y = -2;
 
-                    *replay = true;
+                *replay = true;
 
             } else
                 *replay = false;
@@ -648,10 +627,10 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
 
             // Saut d'un pion
             if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
-                    x = -1;
-                    y = 2;
-                    
-                    *replay = true;
+                x = -1;
+                y = 2;
+                
+                *replay = true;
 
             } else
                 *replay = false;
@@ -671,10 +650,10 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
 
             // Saut d'un pion
             if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
-                    x = 1;
-                    y = 2;
-
-                    *replay = true;
+                x = 1;
+                y = 2;
+                
+                *replay = true;
 
             } else
                 *replay = false;
@@ -682,7 +661,7 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
     }
 
     // On vérifie si le pion ne sort pas du plateau
-    if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' ) {
+    if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char == 'x') {
 
         // L'ancienne case hérite de attributs de la nouvelle sur laquelle le pion à été bougé
         p [ j->pions [ numPion ].x ] [ j->pions [ numPion ].y ].couleur = ' ';
@@ -690,7 +669,11 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
         j->pions [ numPion ].x += x;
         j->pions [ numPion ].y += y;
 
-        *value = 'c'; // Le pion ne sort pas du plateau
+        *value = 'c'; // Le pion ne sort pas du plateau et peut se déplacer sur la bonne case
+    
+    // On vérifie si le pion ne va pas sauter deux pions
+    } else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' && p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' ) {
+        *value = 'r'; // Le pion saute deux pions
 
     } else
         *value = 'z'; // Le pion sort du plateau
@@ -831,6 +814,7 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
     int indexJoueurGagnant;
 
     char Case; // Variable servant à indiquer ou non à l'utilisateur si sa saisie fait sortir le pion du plateau
+    char mvt = 'n'; // Variable servant à mettre en mémoire le mvt du joueur;
 
     bool ask, gagnant = false, boolean;
     bool replay = false;
@@ -841,7 +825,10 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
 
     // Jeu
     while ( !gagnant ) { // Le jeu tourne tant qu'il n'y a pas de gagnant
-        ask = true;
+        if ( replay )
+            ask = false;
+        else
+            ask = true;
 
         while ( ask ) {
             afficherInfoTourJoueur ( joueurs, count );
@@ -877,7 +864,7 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
             printf ( "\n-- q  d --");
             printf ( "\n   w  c" );
             printf ( "\n  /    \\ " );
-            printf ( "\n\nDans quelle direction voulez-vous vous deplacer ? : " );
+            printf ( "\n\nDans quelle direction voulez-vous vous deplacer ? (pions %d): ", numPion );
             fflush ( stdin );
             scanf ( "%c", &askPosition );
 
@@ -888,9 +875,16 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
                 Sleep ( TIME );
                 clear ();
                 afficherPlateau ( nb_joueurs, joueurs, plateau );
+            
+            // Empêche un joueur de jouer indéfiniment
+            } else if ( mvt == askPosition ) {
+                clear ();
+                printf ( "\nImpossible de faire le mouvement de pion inverse" );
+                printf ( "\nAttendez un tour !!" );
+                Sleep ( TIME );
+                clear ();
+                afficherPlateau ( nb_joueurs, joueurs, plateau );
             }
-
-            // Vérification par la suite si ce mvt est possible
 
             else {
                 clear ();
@@ -904,8 +898,35 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
                     clear ();
                     afficherPlateau ( nb_joueurs, joueurs, plateau );
 
+                // Vérification du saut de deux pions
+                } else if ( Case == 'r' ) {
+                    clear ();
+                    printf ( "\nImpossible de sauter deux pions" );
+                    Sleep ( TIME );
+                    clear ();
+                    afficherPlateau ( nb_joueurs, joueurs, plateau );
+                
+                // Mouvement possible
                 } else {
                     ask = false;
+
+                    switch ( askPosition ) {
+                        case 'a':
+                            mvt = 'c';
+                            break;
+                        
+                        case 'e':
+                            mvt = 'w';
+                            break;
+
+                        case 'q':
+                            mvt = 'd';
+                            break;
+
+                        case 'd':
+                            mvt = 'q';
+                            break;
+                    }
                     break;
                 }
             }
