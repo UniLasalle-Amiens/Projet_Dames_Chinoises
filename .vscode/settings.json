@@ -1,7 +1,17 @@
 {
     "files.associations": {
-        "ia.h": "c",
-        "utils.h": "c",
-        "prototypes.h": "c"
+        "struct.h": "c",
+        "couleurs.h": "c",
+        "utilities.h": "c",
+        "initjoueurs.h": "c",
+        "afficherplateau.h": "c",
+        "afficherinfotourjoueur.h": "c",
+        "modifierposition.h": "c",
+        "win.h": "c",
+        "stdio.h": "c",
+        "stdlib.h": "c",
+        "stdbool.h": "c",
+        "windows.h": "c",
+        "mvtpossible.h": "c"
     }
 }
