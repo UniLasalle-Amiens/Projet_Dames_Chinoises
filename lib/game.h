@@ -19,7 +19,7 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
     char mvt = 'n'; // Variable servant à mettre en mémoire le mvt du joueur;
 
     bool ask, gagnant = false, boolean;
-    bool replay = false, testPion;
+    bool replay = false, sautPion = false;
 
     clear ();
     afficherPlateau ( nb_joueurs, joueurs, plateau );
@@ -95,7 +95,7 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
                 afficherPlateau ( nb_joueurs, joueurs, plateau );
             
             // Empêche un joueur de jouer indéfiniment
-            } else if ( mvt == askPosition ) {
+            } else if ( askPosition == mvt ) {
                 clear ();
                 printf ( "\nImpossible de faire le mouvement de pion inverse" );
                 printf ( "\nAttendez un tour !!" );
@@ -106,7 +106,7 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
 
             else {
                 clear ();
-                modifierPosition ( plateau, numPion, askPosition, &joueurs [ count - 1 ], &Case, &replay );
+                modifierPosition ( plateau, numPion, askPosition, &joueurs [ count - 1 ], &Case, &replay, &sautPion );
                 
                 // Vérification de la sortie de plateau ou non
                 if ( Case == 'z' ) {
@@ -154,8 +154,11 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
         afficherPlateau ( nb_joueurs, joueurs, plateau );
 
         // Le joueur rejoue tant qu'il fait des sauts de pion
-        if ( !replay )
+        if ( !replay ) {
             count++;
+            mvt = 'n';
+            sautPion = false;
+        }
 
         if ( count > nb_joueurs )
             count = 1;

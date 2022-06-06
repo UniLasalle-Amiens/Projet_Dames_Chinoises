@@ -8,11 +8,12 @@
  * @param *j {joueur} - joueur ayant joué
  * @param *value {char}
  * @param *replay {boolean} joueur doit rejouer ? (après un saut de pion)
+ * @param *sautPion {boolean} garde en mémoire si le joueur a réalisé un saut de pion
  * 
  * @return void
  */
-void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueur *j, char *value, bool *replay ) {
-    int x, y, x2, y2 = 0;
+void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueur *j, char *value, bool *replay, bool *sautPion ) {
+    int x = 0, y = 0;
 
     switch ( direction ) {
         case 'a':
@@ -34,10 +35,27 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
                 x = -1;
                 y = -2;
 
-                *replay = true;
+                if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char == 'x' ) {
+                    *replay = true;
+                    *sautPion = true;
+
+                } else {
+                    if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && sautPion )
+                        *replay = true;
+
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && !sautPion )
+                        *replay = false;
+                    
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char == 'z' && !sautPion )
+                        *replay = false;
+                    
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && sautPion )
+                        *replay = true;
+                }
 
             } else
                 *replay = false;
+
             break;
 
         case 'e':
@@ -56,22 +74,55 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
             if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
                 x = 1;
                 y = -2;
+                
+                if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char == 'x' ) {
+                    *replay = true;
+                    *sautPion = true;
 
-                *replay = true;
+                } else {
+                    if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && sautPion )
+                        *replay = true;
+
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && !sautPion )
+                        *replay = false;
+                    
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char == 'z' && !sautPion )
+                        *replay = false;
+                    
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && sautPion )
+                        *replay = true;
+                }
 
             } else
                 *replay = false;
+
             break;
         
         case 'd':
             x = 1;
-            y = 0;
             // j->pions [ numPion ].x += 1;
 
             // Saut d'un pion
             if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
                 x = 2;
-                *replay = true;
+
+                if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char == 'x' ) {
+                    *replay = true;
+                    *sautPion = true;
+
+                } else {
+                    if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && sautPion )
+                        *replay = true;
+
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && !sautPion )
+                        *replay = false;
+                    
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char == 'z' && !sautPion )
+                        *replay = false;
+                    
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && sautPion )
+                        *replay = true;
+                }
 
             } else
                 *replay = false;
@@ -80,13 +131,29 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
         
         case 'q':
             x = -1;
-            y = 0;
             // j->pions [ numPion ].x -= 1;
 
             // Saut d'un pion
             if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
                 x = -2;
-                *replay = true;
+
+                if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char == 'x' ) {
+                    *replay = true;
+                    *sautPion = true;
+
+                } else {
+                    if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && sautPion )
+                        *replay = true;
+
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && !sautPion )
+                        *replay = false;
+                    
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char == 'z' && !sautPion )
+                        *replay = false;
+                    
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && sautPion )
+                        *replay = true;
+                }
 
             } else
                 *replay = false;
@@ -108,11 +175,28 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
             if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
                 x = -1;
                 y = 2;
-                
-                *replay = true;
+
+                if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char == 'x' ) {
+                    *replay = true;
+                    *sautPion = true;
+
+                } else {
+                    if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && sautPion )
+                        *replay = true;
+
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && !sautPion )
+                        *replay = false;
+                    
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char == 'z' && !sautPion )
+                        *replay = false;
+                    
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && sautPion )
+                        *replay = true;
+                }
 
             } else
                 *replay = false;
+
             break;
 
         case 'c':
@@ -131,11 +215,28 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
             if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' ) {
                 x = 1;
                 y = 2;
-                
-                *replay = true;
+
+                if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char == 'x' ) {
+                    *replay = true;
+                    *sautPion = true;
+
+                } else {
+                    if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && sautPion )
+                        *replay = true;
+
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && !sautPion )
+                        *replay = false;
+                    
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char == 'z' && !sautPion )
+                        *replay = false;
+                    
+                    else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' && sautPion )
+                        *replay = true;
+                }
 
             } else
                 *replay = false;
+
             break;
     }
 
@@ -151,9 +252,10 @@ void modifierPosition ( pion p [ 13 ] [ 17 ], int numPion, char direction, joueu
         *value = 'c'; // Le pion ne sort pas du plateau et peut se déplacer sur la bonne case
     
     // On vérifie si le pion ne va pas sauter deux pions
-    } else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' && p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' ) {
+    } else if ( p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'x' && p [ j->pions [ numPion ].x + x ] [ j->pions [ numPion ].y + y ].Char != 'z' )
         *value = 'r'; // Le pion saute deux pions
 
-    } else
-        *value = 'z'; // Le pion sort du plateau
+    // Le pion sort du plateau
+    else
+        *value = 'z';
 }
