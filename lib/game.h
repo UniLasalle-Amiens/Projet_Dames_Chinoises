@@ -45,11 +45,10 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
                 clear ();
                 afficherPlateau ( nb_joueurs, joueurs, plateau );
             }
-            testPion = mvtPossible ( plateau, &joueurs [ count - 1 ], numPion );
 
-            if ( !testPion ) {
+            else if ( !mvtPossible ( plateau, &joueurs [ count - 1 ], numPion ) ) {
                 clear ();
-                printf ( "\nLe pion sélectionné ne peut pas bouger" );
+                printf ( "\nLe pion selectionne ne peut pas bouger" );
                 Sleep ( TIME );
                 clear ();
                 afficherPlateau ( nb_joueurs, joueurs, plateau );
@@ -73,9 +72,19 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
             printf ( "\n-- q  d --");
             printf ( "\n   w  c" );
             printf ( "\n  /    \\ " );
+
+            if ( replay )
+                printf ( "\n\t\tr: rester a cet endroit" );
+
             printf ( "\n\nDans quelle direction voulez-vous vous deplacer ? (pions %d): ", numPion );
             fflush ( stdin );
             scanf ( "%c", &askPosition );
+
+            if ( askPosition == 'r' && replay ) {
+                ask = false;
+                replay = false;
+                break;
+            }
 
             // Vérification de la saisie de l'utilisateur
             if ( askPosition != 'a' && askPosition != 'e' && askPosition != 'q' && askPosition != 'd' && askPosition != 'w' && askPosition != 'c' ) {
