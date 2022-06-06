@@ -170,7 +170,7 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
         if ( boolean ) {
             clear ();
             Color ( ROUGE, NOIR );
-            printf ( "\n\n\tLE JOUEUR %d '%s' A GAGNE !!!", indexJoueurGagnant + 1, joueurs [ indexJoueurGagnant ].nom );
+            printf ( "\n\n\tLE JOUEUR %d '%s' A GAGNE !!!", indexJoueurGagnant, joueurs [ indexJoueurGagnant - 1 ].nom );
             Color ( BLANC, NOIR );
 
             gagnant = true;
