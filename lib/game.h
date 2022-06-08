@@ -19,11 +19,10 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
     char mvt = 'n'; // Variable servant à mettre en mémoire le mvt du joueur;
 
     bool ask, gagnant = false, boolean;
-    bool replay = false, sautPion = false;
+    bool replay = false, sautPion = false, IA;
 
     clear ();
     afficherPlateau ( nb_joueurs, joueurs, plateau );
-
 
     // Jeu
     while ( !gagnant ) { // Le jeu tourne tant qu'il n'y a pas de gagnant
@@ -93,7 +92,7 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
                 Sleep ( TIME );
                 clear ();
                 afficherPlateau ( nb_joueurs, joueurs, plateau );
-            
+        
             // Empêche un joueur de jouer indéfiniment
             } else if ( askPosition == mvt ) {
                 clear ();
@@ -123,7 +122,7 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
                     Sleep ( TIME );
                     clear ();
                     afficherPlateau ( nb_joueurs, joueurs, plateau );
-                
+            
                 // Mouvement possible
                 } else {
                     ask = false;
@@ -162,7 +161,6 @@ void game ( int nb_joueurs, joueur joueurs [], pion plateau [ 13 ] [ 17 ] ) {
 
         if ( count > nb_joueurs )
             count = 1;
-
 
         // Gestion de la fin de partie
         boolean = win ( plateau, joueurs, nb_joueurs, &indexJoueurGagnant );
