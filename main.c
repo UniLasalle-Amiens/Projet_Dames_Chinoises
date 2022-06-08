@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include <windows.h>
 
 #include "lib/struct.h"
@@ -14,6 +15,7 @@
 #include "lib/win.h"
 #include "lib/mvtPossible.h"
 #include "lib/game.h"
+
 
 
 // Fonction principal du programme
