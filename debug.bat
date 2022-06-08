@@ -1,1 +1,1 @@
-./dames
+dames
